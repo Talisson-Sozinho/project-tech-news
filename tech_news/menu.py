@@ -9,24 +9,19 @@ from tech_news.analyzer.ratings import top_5_categories
 
 
 def option_resolve(option):
-    if option == 0:
-        quantity = input("Digite quantas notícias serão buscadas:")
-        return get_tech_news(quantity)
-
-    elif option == 1:
-        title = input("Digite o título:")
-        return search_by_title(title)
-
-    elif option == 2:
-        date = input("Digite a data no formato aaaa-mm-dd:")
-        return search_by_date(date)
-
-    elif option == 3:
-        category = input("Digite a categoria:")
-        return search_by_category(category)
-
-    else:
-        return top_5_categories()
+    options = {
+        '0': lambda: get_tech_news(
+            input("Digite quantas notícias serão buscadas:")
+        ),
+        '1': lambda: search_by_title(input("Digite o título:")),
+        '2': lambda: search_by_date(
+            input("Digite a data no formato aaaa-mm-dd:")
+        ),
+        '3': lambda: search_by_category(input("Digite a categoria:")),
+        '4': lambda: top_5_categories(),
+        '5': lambda: "Encerrando script"
+    }
+    return options[option]()
 
 
 def analyzer_menu():
@@ -44,8 +39,4 @@ def analyzer_menu():
         print("Opção inválida", file=sys.stderr)
         return
 
-    if int(option) == 5:
-        print("Encerrando script")
-        return
-
-    print(option_resolve(int(option)))
+    print(option_resolve(option))
